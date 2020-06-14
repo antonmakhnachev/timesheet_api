@@ -9,26 +9,31 @@ const cookieParser = require('cookie-parser');
 
 const { PORT } = require('./config');
 
-const Connection = require('tedious').Connection;
-const config = {
-    server: 'srv-db1',  //update me
-    authentication: {
-        type: 'default',
-        options: {
-            userName: 'GLAVAPU/Mahnachev_AA', //update me
-            password: 'jHy5yoSk'  //update me
-        }
-    },
-    options: {
-        // If you are on Microsoft Azure, you need encryption:
-        // encrypt: true,
-        database: 'db_Timesheet'  //update me
-    }
-};
+const { Connection, config } = require('./connection_config');
+
+
 const connection = new Connection(config);
+
+const routes = require('./routes/index');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(routes);
+
+
+// app.use
+
+
+
+
 connection.on('connect', function(err) {
     // If no error, then good to proceed.
-    console.log("Connected");
+    if (err) {
+      console.log({ 'Connection error': err });
+    } else {
+      console.log("Connected to the server");
+    }
 });
 
 
