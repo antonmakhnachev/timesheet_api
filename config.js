@@ -1,5 +1,4 @@
-const { NODE_ENV, PORT } = process.env;
-const CONNECTION_DATA = require('./connection_config');
+const { NODE_ENV, PORT, SECRET_KEY } = process.env;
 
 module.exports.PORT = PORT || 3000;
-module.exports.SERVER_CONNECT = NODE_ENV === 'production' ? CONNECTION_DATA : CONNECTION_DATA;
+module.exports.SECRET_KEY = NODE_ENV === 'production' ? SECRET_KEY : 'secret_key';
