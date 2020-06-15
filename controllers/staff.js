@@ -1,18 +1,19 @@
-const Request = require('tedious').Request
-const TYPES = require('tedious').TYPES;
-const { Connection, config } = require('../connection_config');
-const connection = new Connection(config);
-
+const knex = require('../connection_config');
 
 module.exports.addEmloyee = (req, res, next) => {
-  const { first_name, second_name, middle_name } = req.body;
+  const { first_name, second_name, middle_name, employee_number } = req.body;
 
-  const request = new Request(`insert into dbo.staff(first_name, second_name, middle_name) values (${first_name}, ${second_name}, ${middle_name});`, function (err) {
-    if (err) {
-      res.send(err);
-    }
-  });
-
-  connection.execSql(request);
-  next();
+  knex('staff')
+  .insert({
+    first_name: first_name,
+    second_name: second_name,
+    middle_name: middle_name,
+    employee_number: employee_number,
+  })
+  .then(function (result) {
+    res.status(201).send({ message: 'Данные добавлены' })
+  })
+  .catch(function (error) {
+    res.send({ error })
+  })
 }
