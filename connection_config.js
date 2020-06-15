@@ -1,20 +1,13 @@
-const Connection = require('tedious').Connection;
-const config = {
-    server: 'srv-db1',  //update me
-    authentication: {
-        type: 'default',
-        options: {
-            userName: 'GLAVAPU/Mahnachev_AA', //update me
-            password: 'jHy5yoSk',
-              //update me
-        }
-    },
-    options: {
-        // If you are on Microsoft Azure, you need encryption:
-        // encrypt: true,
-        database: 'db_Timesheet',
-        trustServerCertificate: true  //update me
-    }
-}
+const knex = require('knex')({
+  client: 'mssql',
+  connection: {
+    host : 'srv-db1',
+    user : 'sa',
+    password : 'Admin407',
+    database : 'db_Timesheet',
+},
+  debug: true,
+  useNullAsDefault: true,
+});
 
-module.exports = { Connection, config };
+module.exports = knex;
