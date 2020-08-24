@@ -1,28 +1,44 @@
 {
-  "name": "timesheet_api",
+  "name": "timesheet-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonmakhnachev/timesheet-api.git"
+  },
   "author": "Anton Makhnachev",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antonmakhnachev/timesheet-api/issues"
+  },
+  "homepage": "https://github.com/antonmakhnachev/timesheet-api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "celebrate": "^12.1.1",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-winston": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.10",
+    "validator": "^13.0.0",
+    "winston": "^3.2.1",
     "knex": "^0.21.1",
     "mssql": "^6.2.0",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
-    "eslint-config-airbnb-base": "^14.2.0",
-    "nodemon": "^2.0.4",
-    "style-loader": "^1.2.1"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "nodemon": "^2.0.3"
   }
 }
