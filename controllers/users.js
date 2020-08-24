@@ -1,8 +1,7 @@
 const knex = require('../connection_config');
 const bcrypt = require('bcryptjs');
-const SECRET_KEY = require('../config');
-// const cookieParser = require('cookie-parser');
-
+const jwt = require('jsonwebtoken');
+const { SECRET_KEY } = require('../config');
 
 // регистрация нового пользователя
 module.exports.createUser = (req, res, next) => {
@@ -22,7 +21,6 @@ module.exports.createUser = (req, res, next) => {
     })
 };
 
-
 // логин
 module.exports.login = (req, res, next) => {
   const { email, pass } = req.body;
@@ -38,12 +36,16 @@ module.exports.login = (req, res, next) => {
             if (!matched) {
               res.send('неверный пароль')
             }
-            res.send(user)
           })
       } else {
         res.send('пользователь не найден')
       }
-      res.cookie(SECRET_KEY, user[0].ID_USER)
+      const token = jwt.sign({ ID_USER: user[0].ID_USER }, SECRET_KEY, { expiresIn: '8h' })
+      res.cookie('jwt', token, {
+        maxAge: 3600 * 8,
+        httpOnly: true,
+      });
+      res.send(token);
     })
     .catch(function(error) {
       res.send(error)

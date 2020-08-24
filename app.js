@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 // параметры подключения
-const { PORT } = require('./config');
+const { PORT, SECRET_KEY } = require('./config');
+
 
 
 // центральный роутер
@@ -21,6 +22,8 @@ const knex = require('./connection_config');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser(SECRET_KEY));
 
 app.use(routes);
 
