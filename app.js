@@ -21,7 +21,7 @@ const corsOptions = {
   methods: 'GET, POST, PUT, DELETE, PATCH, HEAD',
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'authorization'],
   credentials: true,
 };
 
@@ -40,6 +40,13 @@ if (knex) {
 } else {
   console.log('Connected error');
 }
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+
+  res.status(statusCode).send({ message: statusCode === 500 ? 'Что-то пошло не так' : message });
+  next();
+});
 
 app.listen(PORT, () => {
   console.log(`Port ${PORT}`);

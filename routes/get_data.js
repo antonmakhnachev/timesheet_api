@@ -6,11 +6,13 @@ const {
   getAllDepartments,
   getAllSchedules,
   getAllTypesWork,
+  getStaffList,
 } = require('../controllers/get_data');
 
 routerGetData.get('/getallpositions', getAllPositions);
 routerGetData.get('/getalldepartments', getAllDepartments);
 routerGetData.get('/getallschedules', getAllSchedules);
 routerGetData.get('/getalltypeswork', getAllTypesWork);
+routerGetData.get('/getstafflist', getStaffList);
 
 module.exports = routerGetData;

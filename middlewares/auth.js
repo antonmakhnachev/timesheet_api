@@ -1,30 +1,40 @@
-const knex = require('../connection_config');
-
 const jwt = require('jsonwebtoken');
+// const knex = require('../connection_config');
 const { SECRET_KEY } = require('../config');
-//const UnathorizedError = require('../errors/unathorizedError');
+// const UnathorizedError = require('../errors/unathorizedError');
 
 module.exports.auth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const { authorization } = req.headers;
 
-  if (!token) {
-    //throw new UnathorizedError('Необходима авторизация');
-    throw new Error('ddd')
-    //res.send('Необходима авторизация')
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return res.status(401).send({ message: 'Необходима авторизация' });
   }
 
-  const payload = jwt.verify(token, SECRET_KEY, (err, decoded) => {
-    if (err) {
-      //throw new UnathorizedError('Необходима авторизация');
-      //res.send('Необходима авторизация')
-      throw new Error('ddd')
-    }
+  const token = authorization.replace('Bearer ', '');
+  let payload;
 
-    return decoded;
-  });
+  try {
+    payload = jwt.verify(token, SECRET_KEY);
+  } catch (err) {
+    return res.status(401).send({ message: 'Необходима авторизация' });
+  }
 
-  req.user = payload;
-  console.log(req.user)
+  req.user = payload.ID_USER;
 
-  next();
+  return next();
+
+  // const payload = jwt.verify(token, SECRET_KEY, (err, decoded) => {
+  //   if (err) {
+  //     // throw new UnathorizedError('Необходима авторизация');
+  //     res.send('Необходима авторизация')
+  //     // throw new Error('ddd');
+  //   }
+
+  //   return decoded;
+  // });
+
+  // req.user = payload;
+  // console.log(req.user);
+
+  // next();
 };

@@ -1,53 +1,53 @@
-const knex = require('../connection_config');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const knex = require('../connection_config');
 const { SECRET_KEY } = require('../config');
 
 // регистрация нового пользователя
 module.exports.createUser = (req, res, next) => {
   const {
-    email, firstName, secondName, idPosition, idDepartment, idDepartmentControllable, idDateStart, idDateEnd, pass,
+    email, firstName, secondName, idPosition, idDepartment, pass,
   } = req.body;
 
   bcrypt.hash(pass, 10)
-    .then((hash) => knex.raw(
-      `exec add_user '${email}', ${firstName}, ${secondName}, '${idPosition}', '${idDepartment}', '${idDepartmentControllable}', ${idDateStart}, ${idDateEnd}, '${hash}'`
-    ))
-    .then(function(result) {
+    .then((hash) => knex.raw(`
+      exec add_user '${email}', ${firstName}, ${secondName}, '${idPosition}', '${idDepartment}', '${hash}'
+      `))
+    .then(() => {
       res.status(201).send({ message: 'Пользователь добавлен' });
     })
-    .catch(function(error) {
-      console.log(error);
-    })
+    .catch((err) => {
+      res.send({ err });
+    });
 };
 
 // логин
 module.exports.login = (req, res, next) => {
   const { email, pass } = req.body;
-
-  knex
-    .select('*')
-    .from('users')
-    .where('email', email)
-    .then(function(user) {
-      if (user.length !== 0) {
-        bcrypt.compare(pass, user[0].PASS)
-          .then((matched) => {
-            if (!matched) {
-              res.send('неверный пароль')
-            }
-          })
-      } else {
-        res.send('пользователь не найден')
+  knex.raw(`
+    select * from get_user('${email}')
+    `)
+    .then((user) => {
+      if (user.length === 0) {
+        // const a = user.length
+        // Promise.reject(new Error('не найден'));
+        // res.send(a)
+        throw new Error('не найден');
+        // res.send({ message: 'не найден'});
       }
-      const token = jwt.sign({ ID_USER: user[0].ID_USER }, SECRET_KEY, { expiresIn: '8h' })
-      res.cookie('jwt', token, {
-        maxAge: 3600 * 8,
-        httpOnly: true,
-      });
-      res.send(token);
+      const passCurrent = user[0].PASS;
+      bcrypt.compare(pass, passCurrent)
+        .then((matched) => {
+          if (!matched) {
+            throw new Error('неверный пароль');
+            // res.send({ message: 'неверный пароль' });
+          } else {
+            const idUser = user[0].ID_USER;
+            const token = jwt.sign({ ID_USER: idUser }, SECRET_KEY, { expiresIn: '8h' });
+            res.send({ message: 'Всё верно!', token, idUser });
+          }
+        })
+        .catch(next);
     })
-    .catch(function(error) {
-      res.send(error)
-    })
+    .catch(next);
 };

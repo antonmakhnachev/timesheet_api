@@ -47,3 +47,16 @@ module.exports.getAllTypesWork = (req, res, next) => {
       res.send({ err });
     });
 };
+
+module.exports.getStaffList = (req, res, next) => {
+  const userId = req.user;
+  knex.raw(`
+    select * from dbo.get_staff_list('${userId}') order by staff_name
+    `)
+    .then((result) => {
+      res.send({ result });
+    })
+    .catch((err) => {
+      res.send({ err, userId });
+    });
+};

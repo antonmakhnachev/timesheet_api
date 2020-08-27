@@ -10,7 +10,7 @@ module.exports.addStaff = (req, res, next) => {
     exec add_staff '${firstName}', '${secondName}', '${middleName}', '${employeeNumber}', '${phone}', '${email}', '${gender}', '${typeWork}', '${birthday}', '${department}', '${position}', '${schedule}'
     `)
     .then((result) => {
-      res.send({ message: 'Данные добавлены', user: result });
+      res.send({ staff: result });
     })
     .catch((error) => {
       res.send({ error });

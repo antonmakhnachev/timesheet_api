@@ -7,7 +7,7 @@ const { auth } = require('../middlewares/auth');
 
 routes.use('/users', routerUser);
 
-// routes.use(auth);
+routes.use(auth);
 routes.use('/staff', routerStaff);
 routes.use('/getdata', routerGetData);
 
