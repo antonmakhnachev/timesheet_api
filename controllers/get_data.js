@@ -53,8 +53,8 @@ module.exports.getStaffList = (req, res, next) => {
   knex.raw(`
     select * from dbo.get_staff_list('${userId}') order by staff_name
     `)
-    .then((result) => {
-      res.send({ result });
+    .then((staffList) => {
+      res.send({ staffList });
     })
     .catch((err) => {
       res.send({ err, userId });
@@ -66,8 +66,21 @@ module.exports.getTimesheetCalendar = (req, res, next) => {
   knex.raw(`
     select * from dbo.get_timesheet_calendar('${dateFrom}', '${dateTo}') order by date_from
     `)
-    .then((result) => {
-      res.send({ result });
+    .then((timesheetCalendar) => {
+      res.send({ timesheetCalendar });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};
+
+module.exports.getStaffTimesheet = (req, res, next) => {
+  const { staffId, dateFrom, dateTo } = req.params;
+  knex.raw(`
+    select * from dbo.get_staff_timesheet('${staffId}', '${dateFrom}', '${dateTo}') order by date_from
+    `)
+    .then((staffTimesheet) => {
+      res.send({ staffTimesheet });
     })
     .catch((err) => {
       res.send({ err });
