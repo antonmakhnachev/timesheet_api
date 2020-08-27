@@ -60,3 +60,16 @@ module.exports.getStaffList = (req, res, next) => {
       res.send({ err, userId });
     });
 };
+
+module.exports.getTimesheetCalendar = (req, res, next) => {
+  const { dateFrom, dateTo } = req.params;
+  knex.raw(`
+    select * from dbo.get_timesheet_calendar('${dateFrom}', '${dateTo}') order by date_from
+    `)
+    .then((result) => {
+      res.send({ result });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};
