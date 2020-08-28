@@ -86,3 +86,16 @@ module.exports.getStaffTimesheet = (req, res, next) => {
       res.send({ err });
     });
 };
+
+module.exports.getDaysWeeks = (req, res, next) => {
+  const { staffId, dateFrom, dateTo } = req.params;
+  knex.raw(`
+    select * from dbo.get_days_weeks() order by id_day
+    `)
+    .then((daysweeks) => {
+      res.send({ daysweeks });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};

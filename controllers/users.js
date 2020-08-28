@@ -43,8 +43,10 @@ module.exports.login = (req, res, next) => {
             // res.send({ message: 'неверный пароль' });
           } else {
             const idUser = user[0].ID_USER;
+            const userFirstName = user[0].FIRST_NAME;
+            const userSecondName = user[0].SECOND_NAME;
             const token = jwt.sign({ ID_USER: idUser }, SECRET_KEY, { expiresIn: '8h' });
-            res.send({ message: 'Всё верно!', token, idUser });
+            res.send({ message: 'Всё верно!', token, idUser, userFirstName, userSecondName });
           }
         })
         .catch(next);
