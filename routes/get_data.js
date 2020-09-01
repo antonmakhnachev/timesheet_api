@@ -9,7 +9,7 @@ const {
   getStaffList,
   getTimesheetCalendar,
   getStaffTimesheet,
-  getDaysWeeks
+  getDaysWeeks,
 } = require('../controllers/get_data');
 
 routerGetData.get('/getallpositions', getAllPositions);
