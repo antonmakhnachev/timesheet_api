@@ -36,6 +36,18 @@ module.exports.getAllSchedules = (req, res, next) => {
     });
 };
 
+module.exports.getAllIncidents = (req, res, next) => {
+  knex.raw(`
+    select * from dbo.get_all_incidents() order by incident_name
+    `)
+    .then((result) => {
+      res.send({ result });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};
+
 module.exports.getAllTypesWork = (req, res, next) => {
   knex.raw(`
     select * from dbo.get_all_types_work() order by type_work_name

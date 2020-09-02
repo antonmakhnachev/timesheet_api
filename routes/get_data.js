@@ -10,12 +10,14 @@ const {
   getTimesheetCalendar,
   getStaffTimesheet,
   getDaysWeeks,
+  getAllIncidents,
 } = require('../controllers/get_data');
 
 routerGetData.get('/getallpositions', getAllPositions);
 routerGetData.get('/getalldepartments', getAllDepartments);
 routerGetData.get('/getallschedules', getAllSchedules);
 routerGetData.get('/getalltypeswork', getAllTypesWork);
+routerGetData.get('/getallincidents', getAllIncidents);
 routerGetData.get('/getstafflist', getStaffList);
 routerGetData.get('/gettimesheetcalendar/:dateFrom&:dateTo', getTimesheetCalendar);
 routerGetData.get('/getstafftimesheet/:staffId&:dateFrom&:dateTo', getStaffTimesheet);
