@@ -111,3 +111,16 @@ module.exports.getDaysWeeks = (req, res, next) => {
       res.send({ err });
     });
 };
+
+module.exports.getIdDay = (req, res, next) => {
+  const { dateFrom } = req.params;
+  knex.raw(`
+    select * from dbo.get_id_day('${dateFrom}')
+    `)
+    .then((idDay) => {
+      res.send({ idDay });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};

@@ -11,6 +11,7 @@ const {
   getStaffTimesheet,
   getDaysWeeks,
   getAllIncidents,
+  getIdDay,
 } = require('../controllers/get_data');
 
 routerGetData.get('/getallpositions', getAllPositions);
@@ -22,5 +23,6 @@ routerGetData.get('/getstafflist', getStaffList);
 routerGetData.get('/gettimesheetcalendar/:dateFrom&:dateTo', getTimesheetCalendar);
 routerGetData.get('/getstafftimesheet/:staffId&:dateFrom&:dateTo', getStaffTimesheet);
 routerGetData.get('/getdaysweeks', getDaysWeeks);
+routerGetData.get('/getidday/:dateFrom', getIdDay);
 
 module.exports = routerGetData;
