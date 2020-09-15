@@ -124,3 +124,42 @@ module.exports.getIdDay = (req, res, next) => {
       res.send({ err });
     });
 };
+
+module.exports.createNewId = (req, res, next) => {
+  knex.raw(`
+    exec dbo.create_new_id
+    `)
+    .then((newId) => {
+      res.send({ newId });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};
+
+module.exports.getAllDocuments = (req, res, next) => {
+  const { dateFrom, dateTo } = req.params;
+  const userId = req.user;
+  knex.raw(`
+    select * from dbo.get_all_documents('${userId}', '${dateFrom}', '${dateTo}') order by date_created, incident_name
+    `)
+    .then((documents) => {
+      res.send({ documents });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};
+
+module.exports.getDocumentStaff = (req, res, next) => {
+  const { idDocument } = req.params;
+  knex.raw(`
+    select * from dbo.get_document_staff('${idDocument}')
+    `)
+    .then((staff) => {
+      res.send({ staff });
+    })
+    .catch((err) => {
+      res.send({ err });
+    });
+};
