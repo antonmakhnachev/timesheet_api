@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "deploy": "scp -r ./* makhnachev@172.17.1.31:/var/web-projects/timesheet/timesheet_api/"
   },
   "repository": {
     "type": "git",

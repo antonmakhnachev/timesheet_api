@@ -17,7 +17,7 @@ const routes = require('./routes/index');
 const knex = require('./connection_config');
 
 const corsOptions = {
-  origin: ['http://localhost:8080', 'http://localhost:8081', 'http://127.0.0.1:5500'],
+  origin: ['http://localhost:8080', 'http://localhost:8081', 'http://127.0.0.1:5500', 'http://172.17.1.31:8080'],
   methods: 'GET, POST, PUT, DELETE, PATCH, HEAD',
   preflightContinue: false,
   optionsSuccessStatus: 204,
