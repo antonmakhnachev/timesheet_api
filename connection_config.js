@@ -3,7 +3,7 @@ const knex = require('knex')({
   connection: {
     host: 'srv-db1',
     user: 'sa',
-    password: 'Admin407',
+    password: '',
     database: 'db_Timesheet',
   },
   debug: true,
